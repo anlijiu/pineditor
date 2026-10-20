@@ -1,0 +1,5 @@
+[permissions]
+allow = []
+
+[sandbox]
+allow_write = ["${HOME}/workspace/stock/pinecone/examples/use-dc2-data-source/target", "${HOME}/workspace/stock/pinecone/examples/use-dc2-data-source/src"]

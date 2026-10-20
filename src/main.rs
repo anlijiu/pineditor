@@ -653,7 +653,13 @@ impl PineEditor {
                                         .get(index)
                                         .cloned()
                                         .unwrap_or_else(|| SharedString::from("—"));
-                                    div().child(line)
+                                    // Every row must stay exactly one line tall:
+                                    // `uniform_list` measures the first row and
+                                    // lays the rest out at that height, so a row
+                                    // that wraps would overlap the next one. Long
+                                    // lines (a lexeme column, a wide AST node) are
+                                    // ellipsized instead.
+                                    div().truncate().child(line)
                                 })
                                 .collect::<Vec<_>>()
                         })
