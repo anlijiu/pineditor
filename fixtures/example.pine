@@ -1,0 +1,36 @@
+//@version=5
+indicator("Pine Editor demo", overlay=true)
+
+import mylib as lib
+
+// Create a Point instance and call the distance method
+p = lib.Point.new(3.0, 4.0)
+d = p.distance()
+log.info(str.tostring(d))
+
+// A trimmed-down MA cross, exercising most of the lexer's token kinds.
+length_fast = input.int(10, "Fast length")
+length_slow = input.int(30, "Slow length")
+
+fast = ta.sma(close, length_fast)
+slow = ta.sma(close, length_slow)
+
+color_up = #26a69a
+color_down = #ef5350
+
+bull = fast > slow and close > open
+if bull
+    label.new(bar_index, low, "buy", color=color_up)
+else
+    label.new(bar_index, high, "sell", color=color_down)
+
+plot(fast, "fast", color=color_up)
+plot(slow, "slow", color=color_down)
+
+// Arrays, strings, loops — so the dump shows more than expressions.
+levels = array.from(1.0, 2.0, 3.0)
+total = 0.0
+for i = 0 to array.size(levels) - 1
+    total += array.get(levels, i)
+
+str = "total: " + str.tostring(total, "#.##")

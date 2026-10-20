@@ -1,0 +1,37 @@
+[package]
+name = "pineditor"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Empty workspace to prevent this from being included in the parent workspace
+[workspace]
+
+[dependencies]
+# The desktop UI framework.
+# `tree-sitter` (not the per-language packs) is required for `LanguageRegistry`
+# and `LanguageConfig`; it does not pull in any grammar we do not use.
+gpui-kit = { version = "0.8.0", features = ["tree-sitter"] }
+
+# The Pinecone language stack. `pine-lang` re-exports lexer, parser, ast, sema,
+# format, lint, diagnostics, builtins, interpreter, broker and core.
+# Both crates come from the local pinecone checkout so they share one
+# `pine-core` (the published `pine-lang` would pull a second, incompatible one).
+pine-lang = { path = "../pinecone/crates/pine" }
+# Not published on crates.io (`publish = false`), so it stays a local path.
+pine-reference = { path = "../pinecone/crates/pine-reference" }
+
+# Same version gpui-kit uses, so the LSP types line up.
+lsp-types = "0.97.0"
+anyhow = "1.0.104"
+
+# Headless UI tests (`#[gpui::test]`, VisualTestContext::debug_bounds) render a
+# real frame without a display, which is how the dump panel's layout is checked —
+# see `src/ui_layout_test.rs`.
+#
+# It lives under `[dependencies]` rather than `[dev-dependencies]` on purpose:
+# with resolver v2 a dev-dependency's features are not unified with the same crate
+# gpui-kit pulls in, which produced two `gpui` rlibs and a "multiple candidates"
+# error. gpui-kit's own `test-support` feature is unusable here because its
+# `gpui-fast` optional dependency cannot be resolved from this machine's index.
+gpui = { package = "gpui-pre", version = "0.3.9", features = ["test-support"] }
