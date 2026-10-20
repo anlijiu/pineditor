@@ -1,12 +1,13 @@
 # pineditor
 
-A Pine Script desktop editor built on [gpui-kit](https://gpui-kit.com), with
+A Pine Script desktop editor built on [gpui-kit](https://gpui-kit.com) and [pinecone](https://github.com/ferranbt/pinecone), with
 syntax highlighting, completion, hover, go-to-definition, find-references,
 document symbols, rename, formatting, diagnostics and live lexer/AST dumps — all
 driven by the pinecone crates next to it.
 
 ```bash
-cd rust/pineditor
+git clone git@github.com:ferranbt/pinecone.git
+cd pineditor
 cargo run                            # open the editor window
 cargo run -- --dump                  # print tokens + AST + diagnostics, then exit
 cargo run -- --lib tests/data        # extra library root (repeatable)
